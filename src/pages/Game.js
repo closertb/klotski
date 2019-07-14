@@ -57,6 +57,9 @@ export default class Game extends React.Component {
   }
   componentDidMount() {
     this.timer(0);
+    document.querySelector('.game-box').addEventListener('touchmove', (e) => {
+      e.preventDefault();
+    });
   }
   timer(offsetTime) {
     const formatter = (t) => {
@@ -79,6 +82,9 @@ export default class Game extends React.Component {
   }
   componentWillUnmount() {
     clearInterval(this.interId);
+    document.querySelector('.game-box').removeEventListener('touchmove', (e) => {
+      e.preventDefault();
+    });
   }
   tick(timeStr, tPass) {
     this.setState({

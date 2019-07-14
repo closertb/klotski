@@ -37,6 +37,16 @@ export default class Picker extends React.Component {
     };
     this.startListen = this.startListen.bind(this);
   }
+  componentDidMount() {
+    document.querySelector('.picker-content').addEventListener('touchmove', (e) => {
+      e.preventDefault();
+    });
+  }
+  componentWillUnMount() {
+    document.querySelector('.picker-content').removeEventListener('touchmove', (e) => {
+      e.preventDefault();
+    });
+  }
   startListen(e){
     this.props.event(this.props.level,this.getPos(e).y);
   }

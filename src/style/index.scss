@@ -63,6 +63,7 @@ ol, ul, li {
     font: bold 1rem/1.8rem "Microsoft Yahei";
     padding: 0 30px;
     margin: 10px 0 30px;
+    min-width: 100px;
     color: $lightBluefontColor;
     border: 2px solid $segmentLine;
     border-radius: 25px;
