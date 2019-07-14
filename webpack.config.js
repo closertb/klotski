@@ -4,6 +4,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 module.exports = {
+    devtool: 'inline-source-map',
+    mode: 'production',
+    devtool: 'none',
     entry: './src/index.js',
     output: {
         filename: 'bundle.js',
