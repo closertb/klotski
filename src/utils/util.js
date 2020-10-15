@@ -17,7 +17,7 @@ export const disorganize = (level) => {
     arr.push(i);
   }
   for (i = 0; i < length; i++) {
-    let random = Math.round(Math.random() * (length - 2));
+    const random = Math.round(Math.random() * (length - 2));
     temp = arr[random];
     arr[random] = arr[i];
     arr[i] = temp;
@@ -28,7 +28,7 @@ export const disorganize = (level) => {
 export const randomArr = (length) => {
   const arr = [];
   while (arr.length < (length - 1)) {
-    let random = 1 + Math.round(Math.random() * (length - 2));
+    const random = 1 + Math.round(Math.random() * (length - 2));
     if (random < length && arr.indexOf(random) === -1) {
       arr.push(random);
     }
@@ -42,13 +42,13 @@ export const randomArr = (length) => {
 export const evenInverseNumber = (level) => {
   const length = level * level;
   const res = [];
-  let count = 0,
-    k;
+  let count = 0;
+  let k;
   /**
    * 数据交换
    * */
   const swap = (arr, lastIndex, newIndex) => {
-    let temp = arr[lastIndex];
+    const temp = arr[lastIndex];
     arr[lastIndex] = arr[newIndex];
     arr[newIndex] = temp;
     count++;
@@ -57,7 +57,8 @@ export const evenInverseNumber = (level) => {
    * 检测逆序奇偶性
    * */
   const bubbleOrder = (arr) => {
-    let i, j;
+    let i; let
+      j;
     for (i = 0; i < arr.length; i++) {
       for (j = arr.length - 1; j > i; j--) {
         (arr[j] < arr[j - 1]) && swap(arr, j - 1, j);
@@ -79,31 +80,31 @@ export const evenInverseNumber = (level) => {
     res.push(k);
   }
   for (k = 0; k < length - 1; k++) {
-    let random = Math.round(Math.random() * (length - 2));
+    const random = Math.round(Math.random() * (length - 2));
     swap(res, random, k);
   }
   count = 0;
   bubbleOrder(res.slice());
-  var val = count % 2 + (level % 2) * 5;
+  const val = count % 2 + (level % 2) * 5;
   k = Math.floor(Math.random() * length) + 1;
   k = (k > length - 2) ? (length - 5) : k;
-  let row = Math.floor(k / level);
+  const row = Math.floor(k / level);
   switch (val) {
-  case 0: //偶序列，偶数行,生成一个偶数行的空值位置
-    if (row % 2 === 0) { //奇数行
-      k = k + level;
-    }
-    break;
-  case 1: //奇序列，偶数行，生成一个奇数行的空值位置
-    if (row % 2) { //偶数行
-      k = k - level;
-    }
-    break;
-  case 5: //偶序列，奇数行
-    break;
-  case 6: //奇序列，奇数行
-    transToEven(res, 0);
-    break;
+    case 0: // 偶序列，偶数行,生成一个偶数行的空值位置
+      if (row % 2 === 0) { // 奇数行
+        k += level;
+      }
+      break;
+    case 1: // 奇序列，偶数行，生成一个奇数行的空值位置
+      if (row % 2) { // 偶数行
+        k -= level;
+      }
+      break;
+    case 5: // 偶序列，奇数行
+      break;
+    case 6: // 奇序列，奇数行
+      transToEven(res, 0);
+      break;
   }
 
   res.splice(k, 0, 0);
@@ -117,19 +118,19 @@ export const evenInverseNumber = (level) => {
  * */
 export const getTargetState = (level, index, dir) => {
   const direction = {
-    'left': {
+    left: {
       x: -1,
       y: 0
     },
-    'right': {
+    right: {
       x: 1,
       y: 0
     },
-    'up': {
+    up: {
       x: 0,
       y: -1
     },
-    'down': {
+    down: {
       x: 0,
       y: 1
     }
@@ -157,16 +158,16 @@ export const pointer = {
     endX: 0,
     endY: 0,
   },
-  getPos: function (e) {
+  getPos(e) {
     return {
       x: e.screenX || e.changedTouches[0].pageX,
       y: e.screenY || e.changedTouches[0].pageY,
     };
   },
-  listen: function (e, callback, prop) {
-    var type = e.type;
+  listen(e, callback, prop) {
+    const { type } = e;
     if (type === 'mousedown' || type === 'touchstart') {
-      var pos = this.getPos(e);
+      const pos = this.getPos(e);
       this.prop = prop;
       this.status = true;
       this.position.startX = this.position.endX = pos.x;
@@ -180,19 +181,19 @@ export const pointer = {
       this.status = false;
     }
   },
-  getAngle: function (angx, angy) {
+  getAngle(angx, angy) {
     return Math.atan2(angy, angx) * 180 / Math.PI;
   },
-  getDirection: function () {
+  getDirection() {
     const angx = this.position.endX - this.position.startX;
     const angy = this.position.endY - this.position.startY;
     let dir = 'none';
 
-    //滑动距离判断，防抖
+    // 滑动距离判断，防抖
     if (Math.abs(angx) < 4 && Math.abs(angy) < 4) {
       return dir;
     }
-    var angle = this.getAngle(angx, angy);
+    const angle = this.getAngle(angx, angy);
     if (angle >= -135 && angle <= -45) {
       dir = 'up';
     } else if (angle > 45 && angle < 135) {
@@ -209,25 +210,26 @@ export const pointer = {
 export const timer = {
 
   interId: 0,
-  start: function (callback) {
-    let startTime = new Date().getTime(),
-      tPass = 0;
+  start(callback) {
+    const startTime = new Date().getTime();
+    let tPass = 0;
     const formatter = (t) => {
-      const res = t > 9 ? t : '0' + t;
+      const res = t > 9 ? t : `0${t}`;
       return res;
     };
-    this.interId = setInterval(function () {
-      let tNew = new Date().getTime(),
-        ms, sec, min, timeStr;
+    this.interId = setInterval(() => {
+      const tNew = new Date().getTime();
+      let ms; let sec; let min; let
+        timeStr;
       tPass = tNew - startTime;
       ms = Math.floor(tPass % 1000 % 10);
       sec = Math.floor((tPass / 1000) % 60);
       min = Math.floor((tPass / 1000 / 60) % 60);
-      timeStr = formatter(min) + ':' + formatter(sec) + ':' + formatter(ms);
+      timeStr = `${formatter(min)}:${formatter(sec)}:${formatter(ms)}`;
       callback(timeStr);
     }, 100);
   },
-  stop: function () {
+  stop() {
     clearInterval(this.interId);
   }
 };

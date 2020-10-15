@@ -21,16 +21,16 @@ export default class Home extends React.Component {
   }
 
   selectIndex(e) {
-    const path = '/simple?level=' + e[0];
+    const path = `/simple?level=${e[0]}`;
     this.props.history.push(path);
   }
 
   closePicker() {
-    this.setState({showPiker: false});
+    this.setState({ showPiker: false });
   }
 
   showPicker() {
-    this.setState({showPiker: true});
+    this.setState({ showPiker: true });
   }
 
   render() {
@@ -39,18 +39,20 @@ export default class Home extends React.Component {
         <h3><span>欢迎来到</span></h3>
         <h2><span>数字华容道</span></h2>
         <ul className="level-items">
-          <li><Link to='/simple?level=3'>3x3</Link></li>
-          <li><Link to='/simple?level=4'>4x4</Link></li>
-          <li><Link to='/simple?level=5'>5x5</Link></li>
-          <li onClick={this.showPicker}>更<span>多...</span></li>
+          <li><Link to="/simple?level=3">3x3</Link></li>
+          <li><Link to="/simple?level=4">4x4</Link></li>
+          <li><Link to="/simple?level=5">5x5</Link></li>
+          <li onClick={this.showPicker}>
+            更
+            <span>多...</span>
+          </li>
         </ul>
         <a href="http://closertb.site/" className="about">
           <svg>
-            <use xlinkHref="#aboutIcon"></use>
+            <use xlinkHref="#aboutIcon" />
           </svg>
         </a>
-        <Pickers sources ={[{index:2,data:[3,4,5,6,7,8,9]}]} title='选择阶数' selectHandle={this.selectIndex} isShow={this.state.showPiker} closeHandle={this.closePicker}/>
+        <Pickers sources={[{ index: 2, data: [3, 4, 5, 6, 7, 8, 9] }]} title="选择阶数" selectHandle={this.selectIndex} isShow={this.state.showPiker} closeHandle={this.closePicker} />
       </div>);
   }
 }
-

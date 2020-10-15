@@ -7,23 +7,23 @@
  */
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Block from '../components/Block';
-import {arrayGenerate} from '../utils/util';
-import {Link} from 'react-router-dom';
+import { arrayGenerate } from '../utils/util';
 
 function Status(props) {
-  const str = props.value + 'x' + props.value;
+  const str = `${props.value}x${props.value}`;
   return (
     <div className="nav-bar">
       <span className="show-status">{str}</span>
-      <Link to="/"><span className="go-back"></span></Link>
+      <Link to="/"><span className="go-back" /></Link>
     </div>
   );
 }
-const translateKey =(str)=>{
-  const arr = str.substr(1).split('&'),res={};
-  arr.forEach((t)=>{
-    let couple = t.split('=');
+const translateKey = (str) => {
+  const arr = str.substr(1).split('&'); const res = {};
+  arr.forEach((t) => {
+    const couple = t.split('=');
     res[couple[0]] = couple[1];
   });
   return res;
@@ -39,25 +39,29 @@ export default class Simple extends React.Component {
       squares: arrayGenerate(this.length),
     };
     this.handleClick = this.handleClick.bind(this);
-    let size = Math.min(window.innerWidth - 20, window.innerHeight);
+    const size = Math.min(window.innerWidth - 20, window.innerHeight);
     this.blockSize = Math.floor(size / 60) * 60;
   }
 
   handleClick() {
   }
+
   render() {
     const link = `/game?level=${this.level}`;
     return (
       <div className="game-box">
-        <Status value={this.state.level}/>
+        <Status value={this.state.level} />
         <Block
           handle={this.handleClick}
           level={this.state.level}
           squares={this.state.squares}
           size={this.blockSize}
-          simple={true}
+          simple
         />
-        <Link to={link}> <div className="start-button be-center"></div></Link>
+        <Link to={link}>
+          {' '}
+          <div className="start-button be-center" />
+        </Link>
       </div>
     );
   }

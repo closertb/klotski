@@ -15,9 +15,10 @@ const city = [];
  * 区别：这个当存在时，返回的数值不是true，而是其所在的索引值
  * @param  {[function]}   callback 回调函数
  * */
-Array.prototype.someIndex = function (callback) {
+// eslint-disable-next-line no-extend-native
+Array.prototype.someIndex = function someIndex(callback) {
   let res = '';
-  for (var i = 0; i < this.length; i++) {
+  for (let i = 0; i < this.length; i++) {
     res = callback(this[i], i, this);
     if (res) {
       res = i;
@@ -30,10 +31,10 @@ Array.prototype.someIndex = function (callback) {
 export default class Pickers extends React.Component {
   constructor(props) {
     super(props);
-    let isCityPicker = props.cityPicker && props.cityPicker.isCityPicker;
+    const isCityPicker = props.cityPicker && props.cityPicker.isCityPicker;
     this.eve = {
       status: false,
-      isCityPicker: isCityPicker,
+      isCityPicker,
       type: 'none',
       level: 0,
       pointer: {
@@ -51,46 +52,50 @@ export default class Pickers extends React.Component {
     this.cancelClick = this.cancelClick.bind(this);
     this.callBack = this.callBack.bind(this);
   }
+
   eventListen(e) {
     this.eve.pointer.end = this.getPos(e).y;
     this.moveDistance(this.eve.pointer);
     this.eve.status = false;
   }
+
   callBack(level, pos) {
     this.eve.level = level;
     this.eve.status = true;
     this.eve.pointer.start = pos;
     this.eve.pointer.end = pos;
   }
+
   handleClick() {
-    const res = this.state.sources.map((t) => {
-      return t.data[t.index];
-    });
+    const res = this.state.sources.map(t => t.data[t.index]);
     this.props.selectHandle(res);
     this.props.closeHandle();
   }
+
   cancelClick() {
     this.props.closeHandle();
   }
+
   getPos(e) {
     return {
       x: e.screenX || e.changedTouches[0].pageX,
       y: e.screenY || e.changedTouches[0].pageY,
     };
   }
+
   moveDistance(pointer) {
     if (!this.eve.status) {
       return;
     }
-    let sources = this.state.sources.slice(),
-      target = sources[this.eve.level];
+    let sources = this.state.sources.slice();
+    const target = sources[this.eve.level];
 
-    let md = pointer.start - pointer.end,
-      top = 0;
+    const md = pointer.start - pointer.end;
+    let top = 0;
     if (Math.abs(md) < 5) {
       return;
     }
-    top = top - md;
+    top -= md;
 
     let newIndex = target.index - Math.round(top / 35);
     if (newIndex < 0) {
@@ -102,9 +107,7 @@ export default class Pickers extends React.Component {
     if (this.eve.isCityPicker && this.eve.level < 2) {
       if (this.eve.level) {
         sources[1].index = newIndex;
-        sources[2].data = city[sources[0].index].sub[sources[1].index].sub.map((t) => {
-          return t.name;
-        });
+        sources[2].data = city[sources[0].index].sub[sources[1].index].sub.map(t => t.name);
         sources[2].index = 0;
       } else {
         sources = this.getCitySource({
@@ -116,27 +119,26 @@ export default class Pickers extends React.Component {
     }
 
     this.setState({
-      sources: sources
+      sources
     });
   }
+
   getCitySource(params) {
-    //索引省对应的索引
+    // 索引省对应的索引
     const provinceItem = {
-        index: '',
-        data: []
-      },
-      cityItem = {
-        index: '',
-        data: []
-      },
-      areaItem = {
-        index: '',
-        data: []
-      };
-    provinceItem.data = city.map((t) => {
-      return t.name;
-    });
-    //索引市对应的索引
+      index: '',
+      data: []
+    };
+    const cityItem = {
+      index: '',
+      data: []
+    };
+    const areaItem = {
+      index: '',
+      data: []
+    };
+    provinceItem.data = city.map(t => t.name);
+    // 索引市对应的索引
     if (params.province && params.province !== '') {
       const index = this.searchIndex('name', params.province, city);
       if (index !== '') {
@@ -144,7 +146,7 @@ export default class Pickers extends React.Component {
       }
     }
 
-    //索引市对应的索引
+    // 索引市对应的索引
     if (params.city && params.city !== '') {
       const queryArr = provinceItem.index === '' ? city : city[provinceItem.index].sub;
       const index = this.searchIndex('name', params.city, queryArr);
@@ -156,7 +158,7 @@ export default class Pickers extends React.Component {
       }
     }
 
-    //索引区对应的索引
+    // 索引区对应的索引
     if (params.area && params.area !== '') {
       const queryArr = cityItem.index === '' ? city : city[provinceItem.index].sub[cityItem.index].sub;
       const index = this.searchIndex('name', params.area, queryArr);
@@ -178,14 +180,11 @@ export default class Pickers extends React.Component {
     if (!params.area) {
       areaItem.index = 0;
     }
-    cityItem.data = city[provinceItem.index].sub.map((t) => {
-      return t.name;
-    });
-    areaItem.data = city[provinceItem.index].sub[cityItem.index].sub.map((t) => {
-      return t.name;
-    });
+    cityItem.data = city[provinceItem.index].sub.map(t => t.name);
+    areaItem.data = city[provinceItem.index].sub[cityItem.index].sub.map(t => t.name);
     return [provinceItem, cityItem, areaItem];
   }
+
   /**
    * 作用：根据查询的名字，取出对应的索引值
    * @params {[string]} attr    [查询的属性，region,name]
@@ -198,28 +197,23 @@ export default class Pickers extends React.Component {
    *         三级索引查询到;返回长度为3的数组
    * */
   searchIndex(attr, value, arr) {
-    var index = '';
-    index = arr.someIndex((t) => { //省级查询
-      return t[attr] === value;
-    });
-    if (index === '') { //市级查询
+    let index = '';
+    index = arr.someIndex(t => // 省级查询
+      t[attr] === value);
+    if (index === '') { // 市级查询
       for (var i = 0; i < arr.length; i++) {
-        index = arr[i].sub ? arr[i].sub.someIndex((t) => {
-          return t[attr] === value;
-        }) : '';
+        index = arr[i].sub ? arr[i].sub.someIndex(t => t[attr] === value) : '';
         if (index !== '') {
           index = [i, index];
           break;
         }
       }
     }
-    if (index === '') { //区级查询
+    if (index === '') { // 区级查询
       for (i = 0; i < arr.length; i++) {
-        var temp = arr[i].sub;
+        const temp = arr[i].sub;
         for (var j = 0; j < temp.length; j++) {
-          index = temp[j].sub ? temp[j].sub.someIndex((t) => {
-            return t[attr] === value;
-          }) : '';
+          index = temp[j].sub ? temp[j].sub.someIndex(t => t[attr] === value) : '';
           if (index !== '') {
             break;
           }
@@ -232,17 +226,17 @@ export default class Pickers extends React.Component {
     }
     return index;
   }
+
   render() {
-    const PickerList = this.state.sources.map((t, index) => {
-      return (<Picker level={index} data={t.data} index={t.index} key={index} position={this.state.position} status={this.state.status} event={this.callBack} />);
-    });
+    const PickerList = this.state.sources.map((t, index) => (<Picker level={index} data={t.data} index={t.index} key={index} position={this.state.position} status={this.state.status} event={this.callBack} />));
     const isShowModule = this.props.isShow ? 'picker-module' : 'picker-module none';
     return (
-      <div className={isShowModule}
+      <div
+        className={isShowModule}
         onMouseUp={(e) => { this.eventListen(e); }}
         onTouchEnd={(e) => { this.eventListen(e); }}
       >
-        <div className="piker-shadow"></div>
+        <div className="piker-shadow" />
         <div className="button-bar">
           <span className="btn-cancel" onClick={this.cancelClick}>取消</span>
           <span className="select-name">{this.props.title || '选择'}</span>

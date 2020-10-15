@@ -12,9 +12,9 @@ export default class Root extends React.Component {
       <Router>
         <div>
           <Icons />
-          <Route exact path='/' component={Home} />
-          <Route path='/game' component={Game} />
-          <Route path='/simple' component={Simple} />
+          <Route exact path="/" component={Home} />
+          <Route path="/game" component={Game} />
+          <Route path="/simple" component={Simple} />
         </div>
       </Router>
     );

@@ -30,12 +30,14 @@ export default class Block extends React.Component {
       newIndex: undefined,
     };
   }
+
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.update || nextState.update) {
       return true;
     }
     return false;
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.update) {
       this.setState({
@@ -43,6 +45,7 @@ export default class Block extends React.Component {
       });
     }
   }
+
   handleEvent(dir, prop) {
     const {
       originIndex: index,
@@ -58,11 +61,11 @@ export default class Block extends React.Component {
     } = this.state;
     const squares = quars.slice();
     const newIndex = getTargetState(this.props.level, nowIndex, dir);
-    // 判断滑动的下一个位置为空方块 newIndex === squares[zeroIndex].index 
+    // 判断滑动的下一个位置为空方块 newIndex === squares[zeroIndex].index
     if (newIndex === nowIndex || newIndex !== blankIndex) {
       return;
     }
-    let temp = squares[index].index; // 取出被滑动块当前的索引值
+    const temp = squares[index].index; // 取出被滑动块当前的索引值
     squares[index].index = newIndex; // 更新被滑动块当前的索引值
     squares[zeroIndex].index = temp; // 更新空白块(值为0)的索引值
     this.setState({
@@ -73,6 +76,7 @@ export default class Block extends React.Component {
     });
     this.props.handle(squares);
   }
+
   renderSquare(prop, i) {
     const { update } = this.state;
     const { value, index } = prop;
@@ -87,21 +91,21 @@ export default class Block extends React.Component {
       />
     );
   }
+
   render() {
     const _this = this;
-    const listItems = this.state.squares.map(function (t, index) {
-      return _this.renderSquare(t, index);
-    });
+    const listItems = this.state.squares.map((t, index) => _this.renderSquare(t, index));
     const className = this.props.simple ? 'widget-block add-filter' : 'widget-block';
     const styleStr = {
-      width: this.boxSize + 'px',
-      height: this.boxSize + 'px'
+      width: `${this.boxSize}px`,
+      height: `${this.boxSize}px`
     };
     return (
-      <ul className={className}
+      <ul
+        className={className}
         style={styleStr}
         size={this.size}
-        onSelect={() => { return false; }}
+        onSelect={() => false}
         onMouseUp={(e) => { pointer.listen(e, this.handleEvent); }}
         onTouchEnd={(e) => { pointer.listen(e, this.handleEvent); }}
       >

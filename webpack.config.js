@@ -1,53 +1,30 @@
-const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const webpack = require('webpack');
-module.exports = {
-    devtool: 'inline-source-map',
-    mode: 'production',
-    devtool: 'none',
-    entry: './src/index.js',
-    output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
+const postloader = {
+  loader: 'postcss-loader',
+  options: {
+    postcssOptions: {
+      plugins: [
+        [
+          'postcss-px-to-viewport',
+          {
+            viewportWidth: 375,
+          },
+        ],
+      ],
     },
-    devServer: {
-        host: '0.0.0.0',
-        inline: true,
-        port: 8088,
-        contentBase: './dist'
-    },
-    module: {
-        loaders: [
-            {
-                test: /\.js?$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['es2015', 'react']
-                }
-
-            },
-            {
-                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000
-                }
-            }, {
-                test: /\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    use: ['css-loader', 'sass-loader'],
-                    fallback: "style-loader"
-                })
-            }
-
-        ]
-    },
-    plugins: [
-        new CleanWebpackPlugin(['dist']),
-        new ExtractTextPlugin("index.css"),
-        new HtmlWebpackPlugin({template: './index.html'})
-    ],
+  },
 };
+
+module.exports = (config) => {
+  // config.entry = './md5.js';
+  // config.output.library =  'md5';
+  // config.output.libraryTarget = 'umd';
+  // config.output.filename = 'md5.js';
+  // 配置按需加载，单独打包，加速加载时间
+  config.module.rules.forEach(rule => {
+    if (rule.test.test('index.less')) {
+      rule.use.splice(2, 0, postloader);
+      // console.log('loader', rule.use);
+    }
+  });
+  return config;
+}
