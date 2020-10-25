@@ -242,3 +242,13 @@ export const arrayGenerate = (length) => {
   items.push(0);
   return items;
 };
+
+export function debounce(func, wait) {
+  let timeout;
+  return (...args) => {
+    timeout && clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      func.apply(this, args);
+    }, wait);
+  };
+}

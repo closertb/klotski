@@ -2,12 +2,22 @@
 
 @bottonBg: @auxiliaryColor07;
 
+
+html {
+  height: -webkit-fill-available;
+}
+
 body {
+  position: relative;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+html {
   font: normal 16px "Microsoft Yahei", Futura, sans-serif;
-  height: 100%;
   background-color: @titleBgColor;
   :global {
-    div, p, ul, li, h2, h3, h4 {
+    body, div, p, ul, li, h2, h3, h4 {
       margin: 0;
       padding: 0;
     }
