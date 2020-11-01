@@ -1,6 +1,42 @@
 .demo {
- overflow: scroll;
   :global {
+    .wrapper {
+      &.js-fixed {
+        max-height: 100vh;
+        overflow: scroll;
+      }
+      &.viewport {
+        .list {
+          position: relative;
+          max-height: calc(100vh - 15vw);
+          overflow: scroll;
+        }
+      }
+      &.sticky {
+        max-height: 100vh;
+        overflow: scroll;
+        .filter-bar {
+          position: sticky;
+          top: 0;
+        }
+      }
+
+      &.loading {
+        background-color: blue;
+        content::after {
+          content: '加载中...';
+          position: absolute;
+          width: 100%;
+          top: 0;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: red;
+          font-size: 28px;
+        }
+      }
+    }
     .title {
       height: 15vh;
       line-height: 5vh;
@@ -12,23 +48,11 @@
     .content {
       background-color: rgba(127, 255, 212, .8);
       &.with-fixed {
-        .list-bar {
+        .filter-bar {
           position: fixed;
           top: 0;
           width: 100%;
         }
-      }
-      &.loading::after {
-        content: '加载中...';
-        position: absolute;
-        width: 100%;
-        top: 0;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: red;
-        font-size: 28px;
       }
     }
     .filter-bar {
@@ -46,12 +70,6 @@
       h3 + h3 {
         border-left: 1px solid #eee;
       }
-    }
-
-    .list {
-      position: relative;
-      max-height: calc(100vh - 15vw);
-      overflow: scroll;
     }
     ul {
       li {
