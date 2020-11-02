@@ -21,9 +21,7 @@
         }
       }
 
-      &.loading {
-        background-color: blue;
-        content::after {
+      &.loading .content::after {
           content: '加载中...';
           position: absolute;
           width: 100%;
@@ -34,7 +32,6 @@
           justify-content: center;
           color: red;
           font-size: 28px;
-        }
       }
     }
     .title {

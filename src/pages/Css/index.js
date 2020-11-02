@@ -43,19 +43,24 @@ export default function CssDemo() {
   const fetchRef = useRef();
 
   useEffect(() => {
+    let status = 0;
     fetchRef.current = () => {
-      if (tags > 0) {
+      //  这个写法还有优化的必要
+      if (status > 0 || tags > 0) {
         return;
       }
-      setTags(tags | 1);
+      status |= 1;
+      setTags(status);
       mockFetch(pageRef.current).then((data) => {
         if (data.length < pageSize) {
-          setTags(2);
+          status = 2;
+          setTags(status);
           if (!data.length) {
             return;
           }
         } else {
-          setTags(0);
+          status = 0;
+          setTags(status);
         }
         pageRef.current += 1;
         setList([...list, ...data]);
