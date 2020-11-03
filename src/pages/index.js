@@ -11,7 +11,7 @@ export default class Root extends React.PureComponent {
   render() {
     return (
       <Router>
-        <div>
+        <div className="full-height">
           <Icons />
           <Route exact path="/" component={Home} />
           <Route path="/game" component={Game} />
