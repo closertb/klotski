@@ -2,7 +2,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { debounce } from 'utils/util';
 import FlexFooter from './Demo';
-import style from './index.less';
+// import style from './index.less';
+import './index.less';
 
 const arr = new Array(35).fill(1).map((_, index) => ({
   key: index,
@@ -102,7 +103,8 @@ export default function CssDemo() {
   }, [showDemo, sticky]);
 
   return (
-    <div className={style.demo}>
+    /* {style.demo } */
+    <div className="demo">
       <div id="demo" className={`wrapper ${styleMaps[sticky]}  ${(tags & 1) ? 'loading' : ''}`}>
         <h3 id="title" className="title">
           <div>这是一个概览头部：{showDemo ? '动态吸底' : '局部吸顶'}</div>

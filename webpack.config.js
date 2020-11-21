@@ -1,3 +1,6 @@
+const namespace = require('postcss-plugin-namespace');
+
+
 const postloader = {
   loader: 'postcss-loader',
   options: {
@@ -9,6 +12,9 @@ const postloader = {
             viewportWidth: 375,
           },
         ],
+        [namespace('.name-prefix', {
+          ignore: [/^(body|html)/, ".icon" ]
+        })],
       ],
     },
   },
@@ -22,6 +28,7 @@ module.exports = (config) => {
   // 配置按需加载，单独打包，加速加载时间
   config.module.rules.forEach(rule => {
     if (rule.test.test('index.less')) {
+      rule.use[1].options.modules = false;
       rule.use.splice(2, 0, postloader);
       // console.log('loader', rule.use);
     }

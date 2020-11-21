@@ -24,6 +24,7 @@
 				"@doddle/eslint-config-doddle": "0.0.13",
 				"postcss": "^8.1.1",
 				"postcss-loader": "^4.0.4",
+				"postcss-plugin-namespace": "0.0.2",
 				"postcss-px-to-viewport": "^1.1.1"
 		},
 		"dependencies": {
